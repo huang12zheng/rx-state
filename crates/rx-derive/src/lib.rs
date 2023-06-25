@@ -1,5 +1,9 @@
 //! souce from https://github.com/framesurge/perseus/blob/main/packages/perseus-macro/src/rx_state.rs
 
+mod rx_collections;
+use leptos_reactive::Scope;
+pub use rx_collections::*;
+
 /// A trait for `struct`s that can be made reactive. Typically, this will be
 /// derived with the `#[make_rx]` macro, though it can be implemented manually
 /// if you have more niche requirements.
@@ -11,7 +15,7 @@ pub trait MakeRx {
     type Rx: MakeUnrx;
 
     /// Transforms an instance of the `struct` into its reactive version.
-    fn make_rx(self) -> Self::Rx;
+    fn make_rx(self, scope: Scope) -> Self::Rx;
 }
 
 /// A trait for reactive `struct`s that can be made un-reactive. This is the
