@@ -1,0 +1,44 @@
+---
+source: crates/rx-macro/src/lib.rs
+expression: "prettyplease::unparse(&syntax_tree)"
+---
+pub struct MyStructRx {
+    pub a: leptos_reactive::RwSignal<i32>,
+    pub b: leptos_reactive::RwSignal<String>,
+    pub c: leptos_reactive::RwSignal<Vec<i32>>,
+}
+impl From<MyStructRx> for MyStruct {
+    fn from(value: MyStructRx) -> MyStruct {
+        use rx_derive::MakeUnrx;
+        value.make_unrx()
+    }
+}
+impl From<MyStruct> for MyStructRx {
+    fn from(value: MyStruct) -> MyStructRx {
+        use rx_derive::MakeRx;
+        value.make_rx()
+    }
+}
+impl rx_derive::MakeRx for MyStruct {
+    type Rx = MyStructRx;
+    fn make_rx(self) -> Self::Rx {
+        use rx_derive::MakeRx;
+        Self::Rx {
+            a: leptos_reactive::create_rw_signal(self.a),
+            b: leptos_reactive::create_rw_signal(self.b),
+            c: leptos_reactive::create_rw_signal(self.c),
+        }
+    }
+}
+impl rx_derive::MakeUnrx for MyStructRx {
+    type Unrx = MyStruct;
+    fn make_unrx(self) -> Self::Unrx {
+        use rx_derive::MakeUnrx;
+        Self::Unrx {
+            a: (*self.a.get_untracked()),
+            b: (*self.b.get_untracked()),
+            c: (*self.c.get_untracked()),
+        }
+    }
+}
+

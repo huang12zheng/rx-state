@@ -22,3 +22,4 @@ proc-macro2 = "1"
 darling = "0.20"
 [dev-dependencies]
 insta = "1"
+prettyplease = "0.2"

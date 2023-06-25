@@ -1,0 +1,36 @@
+---
+source: crates/rx-macro/src/lib.rs
+expression: "prettyplease::unparse(&syntax_tree)"
+---
+pub struct MyStructRx {
+    pub c: <Vec<i32> as rx_derive::MakeRx>::Rx,
+}
+impl From<MyStructRx> for MyStruct {
+    fn from(value: MyStructRx) -> MyStruct {
+        use rx_derive::MakeUnrx;
+        value.make_unrx()
+    }
+}
+impl From<MyStruct> for MyStructRx {
+    fn from(value: MyStruct) -> MyStructRx {
+        use rx_derive::MakeRx;
+        value.make_rx()
+    }
+}
+impl rx_derive::MakeRx for MyStruct {
+    type Rx = MyStructRx;
+    fn make_rx(self) -> Self::Rx {
+        use rx_derive::MakeRx;
+        Self::Rx { c: self.c.make_rx() }
+    }
+}
+impl rx_derive::MakeUnrx for MyStructRx {
+    type Unrx = MyStruct;
+    fn make_unrx(self) -> Self::Unrx {
+        use rx_derive::MakeUnrx;
+        Self::Unrx {
+            c: self.c.make_unrx(),
+        }
+    }
+}
+

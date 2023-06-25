@@ -39,3 +39,36 @@ pub fn unreactive_state(input: TokenStream) -> TokenStream {
     }
     .into()
 }
+
+#[test]
+fn expand_derive() {
+    let input = FromDeriveInput::from_derive_input(&syn::parse_quote! {
+        #[derive(ReactiveState)]
+        pub struct MyStruct {
+            pub a: i32,
+            pub b: String,
+            pub c: Vec<i32>,
+        }
+    })
+    .unwrap();
+
+    let input = rx_state::make_rx_impl(input).to_string();
+    let syntax_tree = syn::parse_file(input.as_str()).unwrap();
+    insta::assert_display_snapshot!(prettyplease::unparse(&syntax_tree));
+}
+
+#[test]
+fn expand_nest() {
+    let input = FromDeriveInput::from_derive_input(&syn::parse_quote! {
+        #[derive(ReactiveState)]
+        pub struct MyStruct {
+            #[rx(nested)]
+            pub c: Vec<i32>,
+        }
+    })
+    .unwrap();
+
+    let input = rx_state::make_rx_impl(input).to_string();
+    let syntax_tree = syn::parse_file(input.as_str()).unwrap();
+    insta::assert_display_snapshot!(prettyplease::unparse(&syntax_tree));
+}

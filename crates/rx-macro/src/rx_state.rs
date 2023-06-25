@@ -97,7 +97,8 @@ pub fn make_rx_impl(input: ReactiveStateDeriveInput) -> TokenStream {
             intermediate_field_makers.extend(quote! { #field_ident: self.#field_ident.make_rx(), });
             new_intermediate_field_makers.extend(quote! { #field_ident: #field_ident.make_rx(), });
             unrx_field_makers
-                .extend(quote! { #field_ident: self.#field_ident.clone().make_unrx(), });
+                // .extend(quote! { #field_ident: self.#field_ident.clone().make_unrx(), });
+                .extend(quote! { #field_ident: self.#field_ident.make_unrx(), });
 
             // // Handle suspended fields
             // if let Some(handler) = &field.suspense {
@@ -132,7 +133,8 @@ pub fn make_rx_impl(input: ReactiveStateDeriveInput) -> TokenStream {
                 .extend(quote! { #field_ident: leptos_reactive::create_rw_signal(#field_ident), });
             // All fields must be `Clone`
             unrx_field_makers
-                .extend(quote! { #field_ident: (*self.#field_ident.get_untracked()).clone(), });
+                // .extend(quote! { #field_ident: (*self.#field_ident.get_untracked()).clone(), });
+                .extend(quote! { #field_ident: (*self.#field_ident.get_untracked()), });
 
             // // Handle suspended fields (we don't care if they're nested, the user can worry
             // // about that (probably using `RxResult` or similar))
@@ -181,7 +183,6 @@ pub fn make_rx_impl(input: ReactiveStateDeriveInput) -> TokenStream {
     // TODO Generics support
     quote! {
         #attrs
-        #[derive(Clone)]
         #vis struct #intermediate_ident {
             #intermediate_fields
         }
@@ -206,7 +207,6 @@ pub fn make_rx_impl(input: ReactiveStateDeriveInput) -> TokenStream {
 
         impl rx_derive::MakeRx for #ident {
             type Rx = #intermediate_ident;
-            #[cfg(debug_assertions)]
 
             fn make_rx(self) -> Self::Rx {
                 use rx_derive::MakeRx;
