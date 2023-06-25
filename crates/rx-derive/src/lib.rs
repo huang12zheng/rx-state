@@ -1,5 +1,9 @@
 #![feature(trait_alias)]
 //! souce from https://github.com/framesurge/perseus/blob/main/packages/perseus-macro/src/rx_state.rs
+//!
+//! ```ignore
+#![doc = include_str!("../../rx-macro/tests/compile.rs")]
+//! ```
 
 mod rx_collections;
 pub use leptos_reactive::{self, *};

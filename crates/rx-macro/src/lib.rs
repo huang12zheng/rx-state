@@ -1,3 +1,13 @@
+//! ```ignore
+#![doc = include_str!("../../rx-macro/tests/compile.rs")]
+//! ```
+//! * the generate code example:
+//! ```ignore
+#![doc = include_str!("../../rx-macro/src/snapshots/rx_macro__expand_derive.snap")]
+//! ```
+//! ```ignore
+#![doc = include_str!("../../rx-macro/src/snapshots/rx_macro__expand_nest.snap")]
+//! ```
 mod rx_state;
 
 use darling::FromDeriveInput;
@@ -62,10 +72,10 @@ fn expand_nest() {
     let input = FromDeriveInput::from_derive_input(&syn::parse_quote! {
         #[derive(ReactiveState)]
         pub struct MyStruct {
+            // #[rx(nested)]
+            // pub c: Vec<i32>,
             #[rx(nested)]
-            pub c: Vec<i32>,
-            #[rx(nested)]
-            pub c: RxVec<i32>
+            pub d: RxVec<i32>
         }
     })
     .unwrap();

@@ -2,6 +2,7 @@
 name = "rx-macro"
 authors.workspace = true
 edition.workspace = true
+description = "macro for schema style rx"
 # homepage.workspace = true
 license.workspace = true
 readme.workspace = true
