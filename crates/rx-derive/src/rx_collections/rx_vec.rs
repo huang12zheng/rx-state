@@ -1,6 +1,6 @@
 use std::ops::Deref;
 
-use leptos_reactive::{create_rw_signal, RwSignal, Scope, SignalGetUntracked};
+use leptos_reactive::{create_rw_signal, RwSignal, SignalGetUntracked};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
@@ -22,13 +22,9 @@ pub struct RxVecRx<T: 'static>(RwSignal<Vec<RwSignal<T>>>);
 impl<T: Clone + 'static> MakeRx for RxVec<T> {
     type Rx = RxVecRx<T>;
 
-    fn make_rx(self, scope: Scope) -> Self::Rx {
+    fn make_rx(self) -> Self::Rx {
         RxVecRx(create_rw_signal(
-            scope,
-            self.0
-                .into_iter()
-                .map(|x| create_rw_signal(scope, x))
-                .collect(),
+            self.0.into_iter().map(|x| create_rw_signal(x)).collect(),
         ))
     }
 }

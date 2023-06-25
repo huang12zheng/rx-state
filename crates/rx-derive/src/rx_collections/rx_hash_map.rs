@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::hash::Hash;
 use std::ops::Deref;
 
-use leptos_reactive::{create_rw_signal, RwSignal, Scope, SignalGetUntracked};
+use leptos_reactive::{create_rw_signal, RwSignal, SignalGetUntracked};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
@@ -35,12 +35,11 @@ pub struct RxHashMapRx<K: 'static, V: 'static>(RwSignal<HashMap<K, RwSignal<V>>>
 impl<K: 'static + Eq + Hash + Clone, V: 'static + Clone> MakeRx for RxHashMap<K, V> {
     type Rx = RxHashMapRx<K, V>;
 
-    fn make_rx(self, scope: Scope) -> Self::Rx {
+    fn make_rx(self) -> Self::Rx {
         RxHashMapRx(create_rw_signal(
-            scope,
             self.0
                 .into_iter()
-                .map(|(k, v)| (k, create_rw_signal(scope, v)))
+                .map(|(k, v)| (k, create_rw_signal(v)))
                 .collect(),
         ))
     }

@@ -15,11 +15,11 @@ keywords = ["reactive", "macros", "derive"]
 proc-macro = true
 
 [dependencies]
-rx-derive = { path = "../rx-derive" }
 quote = "1"
 syn = "2"
 proc-macro2 = "1"
 darling = "0.20"
 [dev-dependencies]
+rx-derive = { path = "../rx-derive" }
 insta = "1"
 prettyplease = "0.2"

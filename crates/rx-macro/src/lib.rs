@@ -64,6 +64,8 @@ fn expand_nest() {
         pub struct MyStruct {
             #[rx(nested)]
             pub c: Vec<i32>,
+            #[rx(nested)]
+            pub c: RxVec<i32>
         }
     })
     .unwrap();

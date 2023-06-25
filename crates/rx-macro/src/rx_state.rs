@@ -134,7 +134,7 @@ pub fn make_rx_impl(input: ReactiveStateDeriveInput) -> TokenStream {
             // All fields must be `Clone`
             unrx_field_makers
                 // .extend(quote! { #field_ident: (*self.#field_ident.get_untracked()).clone(), });
-                .extend(quote! { #field_ident: (*self.#field_ident.get_untracked()), });
+                .extend(quote! { #field_ident: self.#field_ident.get_untracked(), });
 
             // // Handle suspended fields (we don't care if they're nested, the user can worry
             // // about that (probably using `RxResult` or similar))
