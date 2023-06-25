@@ -35,9 +35,9 @@ impl rx_derive::MakeUnrx for MyStructRx {
     fn make_unrx(self) -> Self::Unrx {
         use rx_derive::MakeUnrx;
         Self::Unrx {
-            a: (*self.a.get_untracked()),
-            b: (*self.b.get_untracked()),
-            c: (*self.c.get_untracked()),
+            a: self.a.get_untracked(),
+            b: self.b.get_untracked(),
+            c: self.c.get_untracked(),
         }
     }
 }
