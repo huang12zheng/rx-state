@@ -56,9 +56,6 @@ impl<K: Eq + Hash + Clone, V: Clone> MakeUnrx for RxHashMapRx<K, V> {
                 .collect(),
         )
     }
-
-    #[cfg(any(client, doc))]
-    fn compute_suspense(&self, _cx: Scope) {}
 }
 // --- Dereferencing ---
 impl<K: BaseTrait, V> Deref for RxHashMap<K, V> {

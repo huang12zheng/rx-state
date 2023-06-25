@@ -39,9 +39,6 @@ impl<T: Clone> MakeUnrx for RxVecRx<T> {
         let vec = self.0.get_untracked();
         RxVec(vec.into_iter().map(|x| (x.get_untracked())).collect())
     }
-
-    #[cfg(any(client, doc))]
-    fn compute_suspense(&self, _cx: Scope) {}
 }
 // --- Dereferencing ---
 impl<T> Deref for RxVec<T> {
