@@ -1,0 +1,34 @@
+[workspace.package]
+# name = "rx-state"
+version = "0.1.0"
+authors = ["huang12zheng <805104533@qq.com>"]
+edition = "2021"
+description = ""
+# resolver = "2"
+# documentation = ""
+# homepage = ""
+repository = "https://github.com/huang12zheng/rx-state"
+license = "MIT"
+keywords = ["rx-state"]
+# categories = []
+
+publish = true # no accidents while in dev
+
+[workspace]
+members = ["crates/*"]
+
+# [features]
+# default = []
+# full = []
+
+# [dependencies]
+# serde = { version = "1", default-features = false, features = ["derive"] }
+# envy = "0.4"
+# once_cell = "1"
+
+# [dev-dependencies]
+# insta = "1"
+
+# [profile.release]
+# codegen-units = 1
+# incremental = false

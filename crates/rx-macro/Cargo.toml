@@ -1,0 +1,24 @@
+[package]
+name = "rx-macro"
+authors.workspace = true
+edition.workspace = true
+# homepage.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+version.workspace = true
+keywords = ["reactive", "macros", "derive"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+proc-macro = true
+
+[dependencies]
+rx-derive = { path = "../rx-derive" }
+quote = "1"
+syn = "2"
+proc-macro2 = "1"
+darling = "0.20"
+[dev-dependencies]
+insta = "1"
