@@ -2,7 +2,7 @@ use std::ops::Deref;
 
 use leptos_reactive::{create_rw_signal, RwSignal, Scope, SignalGetUntracked};
 #[cfg(feature = "serde")]
-use serde::{Deserialize, DeserializeOwned, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::{MakeRx, MakeUnrx};
 

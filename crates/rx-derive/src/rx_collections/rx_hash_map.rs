@@ -4,9 +4,14 @@ use std::ops::Deref;
 
 use leptos_reactive::{create_rw_signal, RwSignal, Scope, SignalGetUntracked};
 #[cfg(feature = "serde")]
-use serde::{Deserialize, DeserializeOwned, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::{MakeRx, MakeUnrx};
+
+#[cfg(feature = "serde")]
+trait BaseTrait = Eq + Hash;
+#[cfg(not(feature = "serde"))]
+trait BaseTrait = Hash;
 
 /// A reactive version of [`Vec`] that uses nested reactivity on its elements.
 /// This requires nothing by `Clone + 'static` of the elements inside the map,
@@ -14,13 +19,16 @@ use crate::{MakeRx, MakeUnrx};
 /// nested reactive types inside the map (e.g. `String`s), you should
 /// use [`super::RxHashMapNested`].
 // #[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg(not(feature = "serde"))]
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct RxHashMap<K, V>(HashMap<K, V>);
+
+#[cfg(feature = "serde")]
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct RxHashMap<K: Eq + Hash, V>(HashMap<K, V>);
 
 /// The reactive version of [`RxHashMap`].
 #[derive(Clone, Debug)]
-// #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RxHashMapRx<K: 'static, V: 'static>(RwSignal<HashMap<K, RwSignal<V>>>);
 
 // --- Reactivity implementations ---
@@ -53,7 +61,7 @@ impl<K: Eq + Hash + Clone, V: Clone> MakeUnrx for RxHashMapRx<K, V> {
     fn compute_suspense(&self, _cx: Scope) {}
 }
 // --- Dereferencing ---
-impl<K: Hash, V> Deref for RxHashMap<K, V> {
+impl<K: BaseTrait, V> Deref for RxHashMap<K, V> {
     type Target = HashMap<K, V>;
 
     fn deref(&self) -> &Self::Target {
@@ -68,7 +76,7 @@ impl<K, V> Deref for RxHashMapRx<K, V> {
     }
 }
 // --- Conversion implementation ---
-impl<K: Hash, V> From<HashMap<K, V>> for RxHashMap<K, V> {
+impl<K: BaseTrait, V> From<HashMap<K, V>> for RxHashMap<K, V> {
     fn from(value: HashMap<K, V>) -> Self {
         Self(value)
     }

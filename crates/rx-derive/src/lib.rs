@@ -1,3 +1,4 @@
+#![feature(trait_alias)]
 //! souce from https://github.com/framesurge/perseus/blob/main/packages/perseus-macro/src/rx_state.rs
 
 mod rx_collections;
